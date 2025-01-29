@@ -1,51 +1,52 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose'); // Import mongoose
+const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
+const jwt = require('jsonwebtoken'); // Import jsonwebtoken for token generation
 
+// Define user schema
 const userSchema = new mongoose.Schema({
-    fullName: {
-        firstName: {
+    fullname: {
+        firstname: {
             type: String,
             required: true,
-            minlength: [3, "First name must be at least 3 characters or long"]
+            minlength: [3, 'First name must be at least 3 characters long'], // Validate first name
         },
-        lastName: {
+        lastname: {
             type: String,
-            minlength: [3, "Last name must be at least 3 characters or long"]
+            minlength: [3, 'Last name must be at least 3 characters long'], // Validate last name
         }
     },
     email: {
         type: String,
         required: true,
         unique: true,
-        minlength: [5, "Email must be at least 5 character long"]
+        minlength: [5, 'Email must be at least 5 characters long'], // Validate email
     },
     password: {
         type: String,
         required: true,
-        select: false
+        select: false, // Do not select password by default
     },
     socketId: {
-        type: String
-    }
+        type: String, // Socket ID for real-time communication
+    },
 });
 
-// authomatic generate the token 
-userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id}, process.env.JWT_SECRET)
+// Method to generate auth token
+userSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' }); // Generate token
     return token;
 };
 
+// Method to compare password
 userSchema.methods.comparePassword = async function (password) {
-    return await bcrypt.compare(password, this.password);
-}
+    return await bcrypt.compare(password, this.password); // Compare password
+};
 
+// Static method to hash password
 userSchema.statics.hashPassword = async function (password) {
-    return await bcrypt.hash(password, 10)
-}
+    return await bcrypt.hash(password, 10); // Hash password
+};
 
-const userModel = mongoose.model("User", userSchema);
+const userModel = mongoose.model('User', userSchema); // Create user model
 
-module.exports = userModel;
-
-
+module.exports = userModel; // Export user model

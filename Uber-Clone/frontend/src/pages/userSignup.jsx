@@ -1,111 +1,113 @@
-import React, { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { UserDataContext } from '../context/UserContext'
+import React, { useState, useContext } from 'react' // Import necessary hooks and libraries
+import { Link, useNavigate } from 'react-router-dom' // Import Link and useNavigate from react-router-dom
+import axios from 'axios' // Import axios for making HTTP requests
+import { UserDataContext } from '../context/UserContext' // Import UserDataContext for managing user data
 
 const UserSignup = () => {
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
-  const [ firstName, setFirstName ] = useState('')
-  const [ lastName, setLastName ] = useState('')
-  const [ userData, setUserData ] = useState({})
+  const [ email, setEmail ] = useState('') // State for email
+  const [ password, setPassword ] = useState('') // State for password
+  const [ firstName, setFirstName ] = useState('') // State for first name
+  const [ lastName, setLastName ] = useState('') // State for last name
+  const [ userData, setUserData ] = useState({}) // State for user data
 
-  const navigate = useNavigate()
+  const navigate = useNavigate() // Hook for navigation
 
-  const {user, setUser} = useContext(UserDataContext)
+  const { user, setUser } = useContext(UserDataContext) // Use context to get and set user data
 
   const submitHandler = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault() // Prevent default form submission
     const newUser = {
-      fullName: {
-        firstName: firstName,
-        lastName: lastName
+      fullname: {
+        firstname: firstName,
+        lastname: lastName
       },
       email: email,
       password: password
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser) // Make API call to register user
+
     if (response.status === 201) {
       const data = response.data
-      setUser(data.user)
-      localStorage.setItem('token', data.token)
-      navigate('/home')
+      setUser(data.user) // Set user data in context
+      localStorage.setItem('token', data.token) // Store token in local storage
+      navigate('/home') // Navigate to home page
     }
-    // console.log(userData);
-    setEmail('')
-    setFirstName('')
-    setLastName('')
-    setPassword('')
+
+    setEmail('') // Reset email state
+    setFirstName('') // Reset first name state
+    setLastName('') // Reset last name state
+    setPassword('') // Reset password state
   }
 
   return (
-    <div className="p-7 h-screen flex flex-col justify-between">
-      <div>
-        <img className="w-16 mb-10" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-        <form onSubmit={(e) => {
-          submitHandler(e);
-        }} >
-          <h3 className="text-lg font-medium mb-2">What`s your full name</h3>
-          <div className="flex gap-4 mb-6">
+    <div>
+      <div className='p-7 h-screen flex flex-col justify-between'>
+        <div>
+          <img className='w-16 mb-10' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s" alt="" /> {/* Logo */}
+
+          <form onSubmit={(e) => {
+            submitHandler(e)
+          }}>
+            <h3 className='text-lg w-1/2  font-medium mb-2'>What's your name</h3>
+            <div className='flex gap-4 mb-7'>
+              <input
+                required
+                className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border  text-lg placeholder:text-base'
+                type="text"
+                placeholder='First name'
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value)
+                }}
+              />
+              <input
+                required
+                className='bg-[#eeeeee] w-1/2  rounded-lg px-4 py-2 border  text-lg placeholder:text-base'
+                type="text"
+                placeholder='Last name'
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value)
+                }}
+              />
+            </div>
+
+            <h3 className='text-lg font-medium mb-2'>What's your email</h3>
             <input
-              type="text"
-              className="bg-[#eeeeee] w-1/2 rounded px-4 py-2 border text-lg placeholder:text-base"
-              placeholder="First name"
               required
-              value={firstName}
+              value={email}
               onChange={(e) => {
-                setFirstName(e.target.value)
+                setEmail(e.target.value)
               }}
+              className='bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
+              type="email"
+              placeholder='email@example.com'
             />
+
+            <h3 className='text-lg font-medium mb-2'>Enter Password</h3>
+
             <input
-              type="text"
-              className="bg-[#eeeeee] w-1/2 rounded px-4 py-2 border text-lg placeholder:text-base"
-              placeholder="Last name"
-              required
-              value={lastName}
+              className='bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
+              value={password}
               onChange={(e) => {
-                setLastName(e.target.value)
+                setPassword(e.target.value)
               }}
+              required type="password"
+              placeholder='password'
             />
-          </div>
-          <h3 className="text-lg font-medium mb-2">What`s your Email</h3>
-          <input
-            type="email"
-            className="bg-[#eeeeee] mb-6 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
-            placeholder="email@example.com"
-            required
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value)
-            }}
-          />
 
-          <h3 className="text-lg font-medium mb-2">Enter Password</h3>
+            <button
+              className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
+            >Create account</button>
 
-          <input
-            className="bg-[#eeeeee] mb-6 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
-            type="password"
-            placeholder="password"
-            required
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value)
-            }}
-          />
-
-          <button
-            className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg placeholder:text-base"
-          >
-            Create account
-          </button>
-        </form>
-        <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Login here</Link></p>
-      </div >
-
-      <div>
-        <p className="text-[12px] leading-tight">By proceeding, you consent to get calls, WhatsApp or SMS/RCS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
+          </form>
+          <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Login here</Link></p>
+        </div>
+        <div>
+          <p className='text-[10px] leading-tight'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy
+            Policy</span> and <span className='underline'>Terms of Service apply</span>.</p>
+        </div>
       </div>
     </div >
   )

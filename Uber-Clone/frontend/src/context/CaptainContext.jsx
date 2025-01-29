@@ -1,17 +1,17 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext } from 'react'; // Import necessary hooks and libraries
 
-export const CaptainDataContext = createContext();
+export const CaptainDataContext = createContext(); // Create CaptainDataContext
 
-const CaptainContext = ({ children }) => {
-    const [ captain, setCaptain ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ error, setError ] = useState(null);
+const CaptainContext = ({ children }) => { // Define CaptainContext component
+    const [ captain, setCaptain ] = useState(null); // State for captain data
+    const [ isLoading, setIsLoading ] = useState(false); // State for loading status
+    const [ error, setError ] = useState(null); // State for error
 
-    const updateCaptain = (captainData) => {
+    const updateCaptain = (captainData) => { // Function to update captain data
         setCaptain(captainData);
     };
 
-    const value = {
+    const value = { // Context value
         captain,
         setCaptain,
         isLoading,
@@ -21,11 +21,11 @@ const CaptainContext = ({ children }) => {
         updateCaptain
     };
 
-    return (
-        <CaptainDataContext.Provider value={value}>
+    return ( // Return JSX
+        <CaptainDataContext.Provider value={value}> {/* Provide context value */}
             {children}
         </CaptainDataContext.Provider>
     );
 };
 
-export default CaptainContext;
+export default CaptainContext; // Export CaptainContext component

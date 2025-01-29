@@ -1,40 +1,37 @@
-const dotenv = require("dotenv");
+// Load environment variables from .env file
+const dotenv = require('dotenv');
 dotenv.config();
-const express = require("express");
+// Import required modules
+const express = require('express');
 const cors = require('cors');
 const app = express();
-const userRoutes = require("./routes/user.routes");
-const cookieParser = require("cookie-parser");
-const captainRoutes = require("./routes/captain.routes")
+const cookieParser = require('cookie-parser');
+const connectToDb = require('./db/db');
+const userRoutes = require('./routes/user.routes');
+const captainRoutes = require('./routes/captain.routes');
+const mapsRoutes = require('./routes/maps.routes');
+const rideRoutes = require('./routes/ride.routes');
 
+// Connect to the database
+connectToDb();
 
-// DB CONNETION
-const connectToDB = require("./db/db");
-connectToDB();
-
-// use
+// Middleware setup
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));  
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// route 
-app.get("/", (req, res) => {
-    res.send("hello");  
+// Define a simple route
+app.get('/', (req, res) => {
+    res.send('Hello World');
 });
 
-// 
-app.use("/users", userRoutes); 
+// Route setup
+app.use('/users', userRoutes);
+app.use('/captains', captainRoutes);
+app.use('/maps', mapsRoutes);
+app.use('/rides', rideRoutes);
 
-
-app.use("/captains", captainRoutes);  
-
-
+// Export the app module
 module.exports = app;
 
-
-
-
-
-
-// {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhiZDYzZGQwMDNlMGM4ODVjOGZhOTEiLCJpYXQiOjE3MzcyMTc1OTcsImV4cCI6MTczNzMwMzk5N30.I9WL_jwF5FDl2lvctdpOdTrPh_dLR-RdBKqsS4vkI5k","captain":{"fullname":{"firstname":"test_captain","lastname":"test_last"},"email":"test_email@gmail.com","password":"$2b$10$dW2oXQviEWlRnHZBHoiI1.fcPBxb4UP5yssFsla0uDMv9QlaAOfzO","status":"inactive","vehicle":{"color":"red","plate":"MP 04 XY 2136","capacity":3,"vehicleType":"car"},"_id":"678bd63dd003e0c885c8fa91","__v":0}}
