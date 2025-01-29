@@ -9,6 +9,8 @@ import { useEffect, useContext } from 'react' // Import useEffect and useContext
 import { SocketContext } from '../context/SocketContext' // Import SocketContext
 import { CaptainDataContext } from '../context/CaptainContext' // Import CaptainDataContext
 import axios from 'axios' // Import axios for making HTTP requests
+import LiveTracking from '../components/LiveTracking';
+
 
 const CaptainHome = () => { // Define CaptainHome component
 
@@ -114,8 +116,8 @@ const CaptainHome = () => { // Define CaptainHome component
                 </Link>
             </div>
             <div className='h-3/5'> {/* Image container */}
-                <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> {/* Background image */}
-
+                {/* <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> Background image */}
+                <LiveTracking />
             </div>
             <div className='h-2/5 p-6'> {/* Captain details container */}
                 <CaptainDetails /> {/* CaptainDetails component */}
