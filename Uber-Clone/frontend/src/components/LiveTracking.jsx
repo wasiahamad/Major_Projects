@@ -29,7 +29,7 @@ const LiveTracking = () => {
         // Get the initial position using the browser's geolocation API
         navigator.geolocation.getCurrentPosition((position) => {
             const {longitude, latitude } = position.coords;
-            console.log('Initial position:', latitude, longitude);
+            console.log('Initial position:', longitude, latitude);
             setCurrentPosition({ lng: longitude, lat: latitude });
             mapRef.current.setCenter([longitude, latitude]);
             marker.setLngLat([longitude, latitude]);
@@ -38,7 +38,7 @@ const LiveTracking = () => {
         // Watch for position changes
         const watchId = navigator.geolocation.watchPosition((position) => {
             const {longitude, latitude } = position.coords;
-            console.log('Updated position:', latitude, longitude);
+            console.log('Updated position:',longitude, latitude);
             setCurrentPosition({ lng: longitude, lat: latitude });
             mapRef.current.setCenter([longitude, latitude]);
             marker.setLngLat([longitude, latitude]);
