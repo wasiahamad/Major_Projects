@@ -16,7 +16,7 @@ To get started with any of the projects, navigate to the respective project fold
 
 ## Contributing
 
-We welcome contributions from the community. If you would like to contribute to any of the projects, please follow the guidelines provided in the CONTRIBUTING.md file.
+We welcome contributions from the community. If you would like to contribute to any of the projects, please follow the guidelines provided in the CONTRIBUTING.md file..
 
 ## License
 
