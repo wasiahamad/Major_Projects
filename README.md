@@ -1,6 +1,6 @@
 # Major Projects
 
-This repository contains various major projects developed by our team. Each project is organized into its own folder and includes all necessary files and documentation.
+This repository contains various major projects developed by [MD Wasi Ahmad](https://wasiahamad.github.io/Wasi-github.io/). Each project is organized into its own folder and includes all necessary files and documentation.
 
 ## Projects
 
