@@ -3,6 +3,7 @@
 ## Overview
 The `uber-clone` project is a full-stack application that replicates the core functionalities of the Uber app. It includes features such as user authentication, ride booking, payment processing, and driver tracking. The project is built using modern web technologies and follows best practices for code organization and testing.
 
+
 ## How to Clone This Repository
 To clone this repository, follow these steps:
 
@@ -321,5 +322,5 @@ We welcome contributions to the `uber-clone` project! To contribute, follow thes
 
 We will review your pull request and provide feedback. Once approved, your changes will be merged into the main repository.
 
-Thank you for contributing!
+Thank you 💗 for contributing!
 
