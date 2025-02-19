@@ -1,6 +1,6 @@
 const Listing = require("../models/listings.js"); // Import the Listing model
-const mapToken = process.env.MAP_TOKEN; // Get the Mapbox token from the environment variables
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); // Import the Mapbox Styles service 
+const mapToken = process.env.MAP_TOKEN; // Get the Mapbox token from the environment variables
 const geocodingClient = mbxGeocoding({ accessToken: mapToken }); // Create a new Mapbox Styles service with the Mapbox token 
 
 module.exports.index = async (req, res) => {
