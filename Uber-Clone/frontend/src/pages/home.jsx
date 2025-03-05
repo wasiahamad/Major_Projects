@@ -201,7 +201,7 @@ const Home = () => {
         <div className='h-screen relative overflow-hidden'>
             {/* Uber Logo - Conditionally Rendered */}
             {!panelOpen && (
-                <img className='w-16 absolute left-5 top-5 z-50' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber Logo" />
+                <img className='w-16 absolute left-5 top-5 z-50' src="https://cdn3.rallybound.com/content/images/img/28988/logo-header.png" alt="Uber Logo" />
             )}
 
             {/* Logout Link - Conditionally Rendered */}

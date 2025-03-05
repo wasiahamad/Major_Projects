@@ -44,7 +44,7 @@ const UserLogin = () => {
       <div>
         <img
           className='w-16 mb-10'
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s"
+          src="https://cdn3.rallybound.com/content/images/img/28988/logo-header.png"
           alt=""
         /> {/* Logo */}
 

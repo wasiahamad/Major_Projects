@@ -141,7 +141,7 @@ const CaptainHome = () => { // Define CaptainHome component
         <div className='h-screen'> {/* Main container */}
             {/* Header with z-index */}
             <div className='fixed p-6 top-0 flex bg-white items-center justify-between w-screen z-50'>
-                <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+                <img className='w-16' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgxBSmKtTeyG9kZod_6j-VlMQLbY0wGxb8Bw&s" alt="" />
                 <Link to='/' className='h-10 w-10 bg-black flex items-center justify-center rounded-full'>
                     <i className="text-lg text-white font-medium ri-logout-box-r-line"></i>
                 </Link>
