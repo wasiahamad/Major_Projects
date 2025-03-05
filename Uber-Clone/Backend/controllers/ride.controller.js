@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator'); // Import express-val
 const mapService = require('../services/maps.service'); // Import map service
 const { sendMessageToSocketId } = require('../socket'); // Import socket utility
 const rideModel = require('../models/ride.model'); // Import ride model
+const sendEmail = require('../utils/sendEmail'); // Import sendEmail utility
 
 // Controller to create a new ride
 module.exports.createRide = async (req, res) => {
@@ -74,17 +75,42 @@ module.exports.confirmRide = async (req, res) => {
     try {
         const ride = await rideService.confirmRide({ rideId, captain: req.captain }); // Confirm ride
 
+        // Send ride confirmation email to user
+        try {
+            await sendEmail(
+                ride.user.email, // User's email
+                'Ride Confirmed', // Email subject
+                `Your ride has been confirmed by ${ride.captain.fullname}.` // Email body
+            );
+            console.log('Ride confirmation email sent to user:', ride.user.email);
+        } catch (error) {
+            console.error('Error sending ride confirmation email to user:', error);
+        }
+
+        // Send ride confirmation email to captain
+        try {
+            await sendEmail(
+                ride.captain.email, // Captain's email
+                'Ride Confirmed', // Email subject
+                `You have confirmed the ride for ${ride.user.fullname}.` // Email body
+            );
+            console.log('Ride confirmation email sent to captain:', ride.captain.email);
+        } catch (error) {
+            console.error('Error sending ride confirmation email to captain:', error);
+        }
+
+        // Send real-time message to user
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-confirmed',
             data: ride
-        })
+        });
 
         return res.status(200).json(ride); // Return confirmed ride
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: err.message }); // Return error
     }
-}
+};
 
 // Controller to start ride
 module.exports.startRide = async (req, res) => {
@@ -113,23 +139,32 @@ module.exports.startRide = async (req, res) => {
 
 // Controller to end ride
 module.exports.endRide = async (req, res) => {
-    const errors = validationResult(req); // Validate request
+    console.log("Request Body:", req.body); // Debugging ke liye
+    console.log("Captain Data:", req.captain); // Captain authenticated hai ya nahi
+
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() }); // Return validation errors
+        return res.status(400).json({ errors: errors.array() });
     }
 
-    const { rideId } = req.body; // Get ride ID from request body
+    const { rideId } = req.body;
+    if (!rideId) {
+        return res.status(400).json({ message: "Ride ID is required" });
+    }
 
     try {
-        const ride = await rideService.endRide({ rideId, captain: req.captain }); // End ride
+        const ride = await rideService.endRide({ rideId, captain: req.captain });
+        console.log("Ride Ended Successfully:", ride);
 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-ended',
             data: ride
-        })
+        });
 
-        return res.status(200).json(ride); // Return ended ride
+        return res.status(200).json(ride);
     } catch (err) {
-        return res.status(500).json({ message: err.message }); // Return error
+        console.error("Server Error:", err.message);
+        return res.status(500).json({ message: err.message });
     }
-}
+};
+

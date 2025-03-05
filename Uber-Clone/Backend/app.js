@@ -20,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.json());
 
 // Define a simple route
 app.get('/', (req, res) => {
@@ -31,6 +32,8 @@ app.use('/users', userRoutes);
 app.use('/captains', captainRoutes);
 app.use('/maps', mapsRoutes);
 app.use('/rides', rideRoutes);
+
+
 
 // Export the app module
 module.exports = app;

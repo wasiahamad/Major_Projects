@@ -9,22 +9,26 @@ const FinishRide = (props) => {
     const navigate = useNavigate()
 
     async function endRide() {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
+        console.log("Ride ID Sent:", props.ride?._id); // Debugging ke liye
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
+                rideId: props.ride._id
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
 
-            rideId: props.ride._id
-
-
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+            console.log("Response Data:", response.data); // Debugging ke liye
+            if (response.status === 200) {
+                navigate('/captain-home');
             }
-        })
-
-        if (response.status === 200) {
-            navigate('/captain-home')
+        } catch (error) {
+            console.error("Error Response:", error.response ? error.response.data : error.message);
+            alert("Error finishing ride. Please try again.");
         }
-
     }
+
 
     return (
         <div>

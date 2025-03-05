@@ -157,37 +157,32 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
 
 // End a ride
 module.exports.endRide = async ({ rideId, captain }) => {
-    // Check if ride ID is provided
     if (!rideId) {
         throw new Error('Ride id is required');
     }
 
-    // Find the ride and populate user and captain details
+    console.log("Finding Ride with ID:", rideId, "for Captain:", captain._id);
+
     const ride = await rideModel.findOne({
         _id: rideId,
         captain: captain._id
     }).populate('user').populate('captain').select('+otp');
 
-    // Check if ride is found
     if (!ride) {
         throw new Error('Ride not found');
     }
 
-    // Check if ride is ongoing
-    if (ride.status !== 'ongoing') {
-        throw new Error('Ride not ongoing');
-    }
+    // if (ride.status !== 'ongoing') {
+    //     throw new Error('Ride not ongoing');
+    // }
 
-    // Update ride status to completed
-    await rideModel.findOneAndUpdate({
-        _id: rideId
-    }, {
-        status: 'completed'
-    })
+    await rideModel.findOneAndUpdate(
+        { _id: rideId },
+        { status: 'completed' }
+    );
 
-    // Return the updated ride
+    console.log("Ride successfully ended:", ride);
     return ride;
-}
-
+};
 
 

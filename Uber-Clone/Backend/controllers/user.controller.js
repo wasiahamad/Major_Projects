@@ -2,6 +2,7 @@ const userModel = require('../models/user.model'); // Import user model
 const userService = require('../services/user.service'); // Import user service
 const { validationResult } = require('express-validator'); // Import express-validator
 const blackListTokenModel = require('../models/blackListToken.model'); // Import blacklist token model
+const sendEmail = require('../utils/sendEmail'); // Import sendEmail utility
 
 // Controller to register a new user
 module.exports.registerUser = async (req, res, next) => {
@@ -25,9 +26,21 @@ module.exports.registerUser = async (req, res, next) => {
         lastname: fullname.lastname,
         email,
         password: hashedPassword
-    }); // Create new user
+    });  // Create new user in the database with hashed password 
 
     const token = user.generateAuthToken(); // Generate auth token
+
+    // Send registration confirmation email
+    try {
+        await sendEmail(
+            user.email, // Recipient email
+            'Registration Successful', // Email subject
+            `Welcome ${user.fullname.firstname} ${user.fullname.lastname}! Your registration is successful.` // Email body
+        );
+        console.log('Registration confirmation email sent to:', user.email);
+    } catch (error) {
+        console.error('Error sending registration confirmation email:', error);
+    }
 
     res.status(201).json({ token, user }); // Return token and user
 };
@@ -56,6 +69,18 @@ module.exports.loginUser = async (req, res, next) => {
     const token = user.generateAuthToken(); // Generate auth token
 
     res.cookie('token', token); // Set token in cookies
+
+    // Send login notification email
+    try {
+        await sendEmail(
+            user.email, // Recipient email
+            'Login Notification', // Email subject
+            'You have successfully logged in to your account.' // Email body
+        );
+        console.log('Login notification email sent to:', user.email);
+    } catch (error) {
+        console.error('Error sending login notification email:', error);
+    }
 
     res.status(200).json({ token, user }); // Return token and user
 };

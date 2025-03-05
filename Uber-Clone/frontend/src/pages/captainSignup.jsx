@@ -9,57 +9,60 @@ const CaptainSignup = () => {
   const navigate = useNavigate() // Initialize navigate function
 
   // Define state variables for form inputs
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
-  const [ firstName, setFirstName ] = useState('')
-  const [ lastName, setLastName ] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
-  const [ vehicleColor, setVehicleColor ] = useState('')
-  const [ vehiclePlate, setVehiclePlate ] = useState('')
-  const [ vehicleCapacity, setVehicleCapacity ] = useState('')
-  const [ vehicleType, setVehicleType ] = useState('')
+  const [vehicleColor, setVehicleColor] = useState('')
+  const [vehiclePlate, setVehiclePlate] = useState('')
+  const [vehicleCapacity, setVehicleCapacity] = useState('')
+  const [vehicleType, setVehicleType] = useState('')
 
   const { captain, setCaptain } = React.useContext(CaptainDataContext) // Use CaptainDataContext
 
   // Function to handle form submission
   const submitHandler = async (e) => {
-    e.preventDefault() // Prevent default form submission behavior
+    e.preventDefault();
+  
     const captainData = {
       fullname: {
         firstname: firstName,
-        lastname: lastName
+        lastname: lastName,
       },
       email: email,
       password: password,
+      status: "inactive",
       vehicle: {
         color: vehicleColor,
         plate: vehiclePlate,
         capacity: vehicleCapacity,
-        vehicleType: vehicleType
+        vehicleType: vehicleType,
+      },
+      location: {
+        type: "Point",
+        coordinates: [77.5946, 12.9716], // Replace with actual coordinates
+      },
+    };
+  
+    console.log("Payload:", captainData); // Log the payload
+  
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData);
+      console.log("Response:", response.data);
+  
+      if (response.status === 201) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem("token", data.token);
+        navigate("/captain-home");
       }
+    } catch (error) {
+      console.error("Error Response:", error.response?.data);
+      alert(`Registration failed: ${error.response?.data?.message || "Please check your input and try again."}`);
     }
-
-    // Send POST request to register captain
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
-
-    if (response.status === 201) {
-      const data = response.data
-      setCaptain(data.captain) // Set captain data in context
-      localStorage.setItem('token', data.token) // Store token in localStorage
-      navigate('/captain-home') // Navigate to captain home page
-    }
-
-    // Reset form inputs
-    setEmail('')
-    setFirstName('')
-    setLastName('')
-    setPassword('')
-    setVehicleColor('')
-    setVehiclePlate('')
-    setVehicleCapacity('')
-    setVehicleType('')
-  }
-
+  };
+  
   return (
     <div className='py-5 px-5 h-screen flex flex-col justify-between'>
       <div>

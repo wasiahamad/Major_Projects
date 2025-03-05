@@ -58,8 +58,15 @@ const captainSchema = new mongoose.Schema({
         }
     },
     location: {
-        type: { type: String, default: 'Point' }, // GeoJSON point type
-        coordinates: [Number] // Coordinates array
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     }
 });
 

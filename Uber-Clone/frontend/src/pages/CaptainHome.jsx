@@ -107,22 +107,58 @@ const CaptainHome = () => { // Define CaptainHome component
         }
     }, [confirmRidePopupPanel]) // Dependency array to run when confirmRidePopupPanel changes
 
-    return ( // Return JSX
+    // return ( // Return JSX
+    //     <div className='h-screen'> {/* Main container */}
+    //         <div className='fixed p-6 top-0 flex bg-white items-center justify-between w-screen'> {/* Header */}
+    //             <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" /> {/* Uber logo */}
+    //             <Link to='/captain-home' className=' h-10 w-10 bg-black flex items-center justify-center rounded-full'> {/* Logout button */}
+    //                 <i className="text-lg text-white font-medium ri-logout-box-r-line"></i>
+    //             </Link>
+    //         </div>
+    //         <div className='h-3/5'> {/* Image container */}
+    //             {/* <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> Background image */}
+    //             <LiveTracking />
+    //         </div>
+    //         <div className='h-2/5 p-6'> {/* Captain details container */}
+    //             <CaptainDetails /> {/* CaptainDetails component */}
+    //         </div>
+    //         <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'> {/* Ride popup panel */}
+    //             <RidePopUp
+    //                 ride={ride}
+    //                 setRidePopupPanel={setRidePopupPanel}
+    //                 setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+    //                 confirmRide={confirmRide}
+    //             />
+    //         </div>
+    //         <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'> {/* Confirm ride popup panel */}
+    //             <ConfirmRidePopUp
+    //                 ride={ride}
+    //                 setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
+    //         </div>
+    //     </div>
+    // )
+    return (
         <div className='h-screen'> {/* Main container */}
-            <div className='fixed p-6 top-0 flex items-center justify-between w-screen'> {/* Header */}
-                <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" /> {/* Uber logo */}
-                <Link to='/captain-home' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'> {/* Logout button */}
-                    <i className="text-lg font-medium ri-logout-box-r-line"></i>
+            {/* Header with z-index */}
+            <div className='fixed p-6 top-0 flex bg-white items-center justify-between w-screen z-50'>
+                <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+                <Link to='/' className='h-10 w-10 bg-black flex items-center justify-center rounded-full'>
+                    <i className="text-lg text-white font-medium ri-logout-box-r-line"></i>
                 </Link>
             </div>
-            <div className='h-3/5'> {/* Image container */}
-                {/* <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> Background image */}
+    
+            {/* LiveTracking with margin-top */}
+            <div className='h-3/5 mt-20'>
                 <LiveTracking />
             </div>
-            <div className='h-2/5 p-6'> {/* Captain details container */}
-                <CaptainDetails /> {/* CaptainDetails component */}
+    
+            {/* Captain details container */}
+            <div className='h-2/5 p-6'>
+                <CaptainDetails />
             </div>
-            <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'> {/* Ride popup panel */}
+    
+            {/* Ride popup panel */}
+            <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
                 <RidePopUp
                     ride={ride}
                     setRidePopupPanel={setRidePopupPanel}
@@ -130,13 +166,17 @@ const CaptainHome = () => { // Define CaptainHome component
                     confirmRide={confirmRide}
                 />
             </div>
-            <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'> {/* Confirm ride popup panel */}
+    
+            {/* Confirm ride popup panel */}
+            <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
                 <ConfirmRidePopUp
                     ride={ride}
-                    setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
+                    setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+                    setRidePopupPanel={setRidePopupPanel}
+                />
             </div>
         </div>
-    )
+    );
 }
 
 export default CaptainHome // Export CaptainHome component
